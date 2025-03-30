@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Dado {
     private Square Cuerpo;
     private Circle Punto1;
@@ -7,15 +9,15 @@ public class Dado {
     private Circle Punto5;
     private Circle Punto6;
     private Circle Punto7;
-    private Circle Punto8;
 
-    private int xPosition =100;
-    private int yPosition =100;
+    private int xPosition = 0;
+    private int yPosition = 0;
 
     private int tamaño = 100;
     private int tamañoPunto = 20;
+    private int delta = 10;
 
-    private String colorCuerpo = "white";
+    private String colorCuerpo = "beach";
     private String colorPunto = "black";
 
     public void dibujar () {
@@ -61,13 +63,15 @@ public class Dado {
         Punto7.changeSize (tamañoPunto);
 
 
-        Punto1.moveTo(xPosition + tamañoPunto,yPosition +tamañoPunto);
-        Punto2.moveTo(xPosition + tamañoPunto,yPosition + 2*tamañoPunto);
-        Punto3.moveTo(xPosition + tamañoPunto,yPosition + 3*tamañoPunto);
-        Punto4.moveTo(xPosition + 3*tamañoPunto,yPosition + tamañoPunto);
-        Punto5.moveTo(xPosition + 3*tamañoPunto,yPosition + 2*tamañoPunto);
-        Punto6.moveTo(xPosition + 3*tamañoPunto,yPosition + 3*tamañoPunto);
-        Punto7.moveTo(xPosition + 2*tamañoPunto,yPosition + 2*tamañoPunto);
+        Punto1.moveTo(xPosition + tamañoPunto - delta, yPosition + tamañoPunto - delta);
+        Punto2.moveTo(xPosition + tamañoPunto - delta, yPosition + 2 * tamañoPunto);
+        Punto3.moveTo(xPosition + tamañoPunto - delta, yPosition + 3 * tamañoPunto + delta);
+
+        Punto4.moveTo(xPosition + 3 * tamañoPunto + delta, yPosition + tamañoPunto - delta);
+        Punto5.moveTo(xPosition + 3 * tamañoPunto + delta, yPosition + 2 * tamañoPunto);
+        Punto6.moveTo(xPosition + 3 * tamañoPunto + delta, yPosition + 3 * tamañoPunto + delta);
+
+        Punto7.moveTo(xPosition + 2 * tamañoPunto, yPosition + 2 * tamañoPunto);
     }
 
     public void esconder (){
@@ -80,6 +84,7 @@ public class Dado {
         Punto7.makeInvisible();
         Cuerpo.makeInvisible();
     }
+
     public void mostrarValor (int i){
         esconder ();
         Cuerpo.makeVisible();
@@ -126,4 +131,12 @@ public class Dado {
         yPosition = y;
         acomodarDado();
     }
+
+    public int lanzarDado ( ) {
+        Random valorRnd = new Random();
+        int resultado = valorRnd.nextInt(6) + 1;
+        mostrarValor(resultado);
+        return resultado;
+    }
+
 }
