@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Dado {
     private Square Cuerpo;
     private Circle Punto1;
@@ -7,7 +9,6 @@ public class Dado {
     private Circle Punto5;
     private Circle Punto6;
     private Circle Punto7;
-    private Circle Punto8;
 
     private int xPosition =100;
     private int yPosition =100;
@@ -126,4 +127,13 @@ public class Dado {
         yPosition = y;
         acomodarDado();
     }
+
+    public int lanzarDado ( ) {
+        Random valorRnd = new Random();
+        int resultado = valorRnd.nextInt(6) + 1;
+        mostrarValor(resultado);
+        return resultado;
+    }
+
+
 }
