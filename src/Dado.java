@@ -20,7 +20,7 @@ public class Dado {
     private String colorCuerpo = "beach";
     private String colorPunto = "black";
 
-    public void Dibujar () {
+    public void dibujar () {
         Cuerpo = new Square () ;
         Cuerpo.changeColor (colorCuerpo);
         Punto1 = new Circle () ;
