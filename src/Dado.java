@@ -7,6 +7,7 @@ public class Dado {
     private Circle Punto5;
     private Circle Punto6;
     private Circle Punto7;
+    private Circle Punto8;
 
     private int xPosition =100;
     private int yPosition =100;
