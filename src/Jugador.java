@@ -52,8 +52,6 @@ public class Jugador {
                 int valorSeleccionado = dadoSeleccionado.getValor();
                 dadosTomados.add(valorSeleccionado);
                 dadosDisponibles--;
-
-                JOptionPane.showMessageDialog(null, "Tomaste el dado con valor: " + valorSeleccionado);
             }
         }
         return dadosTomados;

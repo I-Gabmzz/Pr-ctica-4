@@ -39,7 +39,7 @@ public class Farkle {
                 menuActivo = false;
                 NumeroDejugadores = obtenerNumeroDeJugadores();
                 CantidadDepuntosAlcanzar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de puntos para ganar"));
-                //iniciarJuego(NumeroDejugadores, CantidadDepuntosAlcanzar);
+                iniciarJuego(NumeroDejugadores, CantidadDepuntosAlcanzar);
             } else if (opcion == 1) {
                 mostrarCreditos();
             } else if (opcion == 2) {
@@ -56,6 +56,7 @@ public class Farkle {
         turnoActual = 0;
         while (true) {
             Jugador jugador = jugadores.get(turnoActual);
+            // jOption
             turnoDeJugador(jugador);
 
             if (jugador.haAlcanzadoPuntuacion(CantidadDepuntosAlcanzar)) {
@@ -72,10 +73,14 @@ public class Farkle {
 
         while (continuarTirando && jugador.getDadosDisponibles() > 0) {
             jugador.tirarDados(jugador.getDadosDisponibles());
-            ArrayList<Integer> dadosTomados = jugador.guardarDadosTirados();
-            int puntuacionObtenida = determinarPuntaje(dadosTomados);
+            ArrayList<Integer> dadosTomadosEnRonda = jugador.guardarDadosTirados();
+            ArrayList<Integer> dadosTomados = new ArrayList<>();
+            dadosTomados.addAll(dadosTomadosEnRonda);
+            jugador.mostrarDadosTomadosEnCanvas();
+            int puntuacionObtenida = determinarPuntaje(dadosTomadosEnRonda);
             jugador.actualizarPuntuacion(puntuacionObtenida);
             continuarTirando = JOptionPane.showConfirmDialog(null, "¿Deseas seguir tirando?", "Seguir jugando", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            dadosTomadosEnRonda.clear();
         }
 
         jugador.sumarPuntuacionTotal();
