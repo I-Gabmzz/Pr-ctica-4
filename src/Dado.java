@@ -142,7 +142,7 @@ public class Dado {
 
     public void lanzarDado ( ) {
         Random valorRnd = new Random();
-        valor  = valorRnd.nextInt(6) + 1;
+        this.valor  = valorRnd.nextInt(6) + 1;
         mostrarValor(valor);
     }
 
