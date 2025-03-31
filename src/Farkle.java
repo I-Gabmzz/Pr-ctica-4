@@ -3,7 +3,6 @@ package src;
 import javax.swing.*;
 
 public class Farkle {
-    private int opcion;
     private int NumeroDejugadores;
     private int CantidadDepuntosAlcanzar;
 
@@ -26,10 +25,11 @@ public class Farkle {
     }
 
     public void menuInicial() {
+        int opcion;
         boolean menuActivo = true;
         while (menuActivo) {
             Object[] botones = {"Jugar", "Créditos", "Salir"};
-            int opcion = JOptionPane.showOptionDialog(null, "Bienvenido al juego Farkle, seleccione una opción:", "Juego Farkle",
+            opcion = JOptionPane.showOptionDialog(null, "Bienvenido al juego Farkle, seleccione una opción:", "Juego Farkle",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
 
             if (opcion == 0) {
