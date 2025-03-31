@@ -9,5 +9,6 @@ public class Main {
         Jugador j1 = new Jugador();
         j1.tirarDados(6);
         j1.guardarDadosTirados();
+        j1.mostrarDadosTomadosEnCanvas();
     }
 }

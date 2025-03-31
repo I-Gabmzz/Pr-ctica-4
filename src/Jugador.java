@@ -67,36 +67,22 @@ public class Jugador {
         JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tirados", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void mostrarDadosTomadosEnCanvas(int valor, int turno) {
+    public void mostrarDadosTomadosEnCanvas() {
         int delta = 150;
         int xPositionFondo = 50 + dadosTomados.size() * delta;
-        int xPosition = 75 + dadosTomados.size() *  delta;
-        int yPosicion = 825;
 
         Rectangulo fondo = new Rectangulo();
-        fondo.moveTo(xPositionFondo, 800);
-        fondo.changeSize(xPosition + 50, 150);
+        fondo.moveTo(50, 800);
+        fondo.changeSize(xPositionFondo - 50, 150);
+        fondo.changeColor("bone white");
         fondo.makeVisible();
 
-        switch(turno) {
-            case 0:
-                fondo.changeColor("red");
-                break;
-            case 1:
-                fondo.changeColor("blue");
-                break;
-            case 2:
-                fondo.changeColor("green");
-                break;
-            case 3:
-                fondo.changeColor("yellow");
-                break;
-        }
-
         for (int i = 0; i < dadosTomados.size(); i++) {
+            int xPosicion = 75 + i *  delta;
+            int yPosicion = 825;
             Dado dado = new Dado();
-            dado.mostrarValor(valor);
-            dado.moverDado(xPosition, yPosicion);
+            dado.mostrarValor(dadosTomados.get(i));
+            dado.moverDado(xPosicion, yPosicion);
         }
     }
 
