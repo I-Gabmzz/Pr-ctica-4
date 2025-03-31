@@ -35,7 +35,7 @@ public class Jugador {
         }
     }
 
-    public void guardarDadosTirados() {
+    public ArrayList<Integer> guardarDadosTirados() {
         while (true) {
             Object[] botones = new Object[dadosTirados.size() + 1];
             for (int i = 0; i < dadosTirados.size(); i++) {
@@ -58,6 +58,7 @@ public class Jugador {
                 JOptionPane.showMessageDialog(null, "Tomaste el dado con valor: " + valorSeleccionado);
             }
         }
+        return dadosTomados;
     }
 
     public void mostrarDadosTirados() {
