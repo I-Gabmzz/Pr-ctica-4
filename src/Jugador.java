@@ -1,8 +1,8 @@
 package src;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Jugador {
     private int puntuacionTotal;
@@ -20,13 +20,11 @@ public class Jugador {
     }
 
     public void tirarDados(int dadosDisponibles) {
-        Random rand = new Random();
         int delta = 150;
         dadosTirados.clear();
         for (int i = 0; i < dadosDisponibles; i++) {
-            int xVariable = 975 - dadosDisponibles * delta;
-            int xPosicion = 75 + i *  delta ;
-            int yPosicion = 450 ;
+            int xPosicion = 75 + i *  delta;
+            int yPosicion = 450;
             Dado dado = new Dado();
             dado.lanzarDado();
             dado.moverDado(xPosicion,yPosicion);
@@ -67,6 +65,39 @@ public class Jugador {
             mensaje.append(dado.getValor()).append("\n");
         }
         JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tirados", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void mostrarDadosTomadosEnCanvas(int valor, int turno) {
+        int delta = 150;
+        int xPositionFondo = 50 + dadosTomados.size() * delta;
+        int xPosition = 75 + dadosTomados.size() *  delta;
+        int yPosicion = 825;
+
+        Rectangulo fondo = new Rectangulo();
+        fondo.moveTo(xPositionFondo, 800);
+        fondo.changeSize(xPosition + 50, 150);
+        fondo.makeVisible();
+
+        switch(turno) {
+            case 0:
+                fondo.changeColor("red");
+                break;
+            case 1:
+                fondo.changeColor("blue");
+                break;
+            case 2:
+                fondo.changeColor("green");
+                break;
+            case 3:
+                fondo.changeColor("yellow");
+                break;
+        }
+
+        for (int i = 0; i < dadosTomados.size(); i++) {
+            Dado dado = new Dado();
+            dado.mostrarValor(valor);
+            dado.moverDado(xPosition, yPosicion);
+        }
     }
 
     public void mostrarDadosTomados() {
