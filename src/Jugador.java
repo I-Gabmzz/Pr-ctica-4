@@ -35,7 +35,7 @@ public class Jugador {
         }
     }
 
-    public void guardarDadosTirados() {
+    public ArrayList<Integer> guardarDadosTirados() {
         while (true) {
             Object[] botones = new Object[dadosTirados.size() + 1];
             for (int i = 0; i < dadosTirados.size(); i++) {
@@ -58,19 +58,29 @@ public class Jugador {
                 JOptionPane.showMessageDialog(null, "Tomaste el dado con valor: " + valorSeleccionado);
             }
         }
+        return dadosTomados;
     }
 
     public void mostrarDadosTirados() {
+        StringBuilder mensaje = new StringBuilder("Valores de los dados tirados:\n");
         for (Dado dado : dadosTirados) {
-            System.out.println(dado.getValor());
+            mensaje.append(dado.getValor()).append("\n");
         }
+        JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tirados", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void mostrarDadosTomados() {
+        StringBuilder mensaje = new StringBuilder("Valores de los dados tomados:\n");
         for (int valor : dadosTomados) {
-            System.out.println(dadosTomados);
+            mensaje.append(valor).append("\n");
         }
+        JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tomados", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    public void mostrarPuntuacion() {
+        JOptionPane.showMessageDialog(null, "Tu puntuación actual es: " + puntuacion, "Puntuación del Jugador", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     public int getPuntuacionTotal() {
         return puntuacionTotal;
