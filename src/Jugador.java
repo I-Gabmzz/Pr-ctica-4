@@ -1,8 +1,8 @@
 package src;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Jugador {
     private int puntuacionTotal;
@@ -20,13 +20,11 @@ public class Jugador {
     }
 
     public void tirarDados(int dadosDisponibles) {
-        Random rand = new Random();
         int delta = 150;
         dadosTirados.clear();
         for (int i = 0; i < dadosDisponibles; i++) {
-            int xVariable = 975 - dadosDisponibles * delta;
-            int xPosicion = 75 + i *  delta ;
-            int yPosicion = 450 ;
+            int xPosicion = 75 + i *  delta;
+            int yPosicion = 450;
             Dado dado = new Dado();
             dado.lanzarDado();
             dado.moverDado(xPosicion,yPosicion);
@@ -67,6 +65,25 @@ public class Jugador {
             mensaje.append(dado.getValor()).append("\n");
         }
         JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tirados", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void mostrarDadosTomadosEnCanvas() {
+        int delta = 150;
+        int xPositionFondo = 50 + dadosTomados.size() * delta;
+
+        Rectangulo fondo = new Rectangulo();
+        fondo.moveTo(50, 800);
+        fondo.changeSize(xPositionFondo - 50, 150);
+        fondo.changeColor("bone white");
+        fondo.makeVisible();
+
+        for (int i = 0; i < dadosTomados.size(); i++) {
+            int xPosicion = 75 + i *  delta;
+            int yPosicion = 825;
+            Dado dado = new Dado();
+            dado.mostrarValor(dadosTomados.get(i));
+            dado.moverDado(xPosicion, yPosicion);
+        }
     }
 
     public void mostrarDadosTomados() {
