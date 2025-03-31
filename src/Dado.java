@@ -12,6 +12,7 @@ public class Dado {
     private Circle Punto6;
     private Circle Punto7;
 
+    private int valor;
     private int xPosition = 0;
     private int yPosition = 0;
 
@@ -21,6 +22,11 @@ public class Dado {
 
     private String colorCuerpo = "beach";
     private String colorPunto = "black";
+
+    public Dado() {
+        dibujar();
+        acomodarDado();
+    }
 
     public void dibujar () {
         Cuerpo = new Square () ;
@@ -134,11 +140,16 @@ public class Dado {
         acomodarDado();
     }
 
-    public int lanzarDado ( ) {
+    public void lanzarDado ( ) {
         Random valorRnd = new Random();
-        int resultado = valorRnd.nextInt(6) + 1;
-        mostrarValor(resultado);
-        return resultado;
+        this.valor  = valorRnd.nextInt(6) + 1;
+        mostrarValor(valor);
     }
+
+    public int getValor() {
+        return valor;
+    }
+
+
 
 }
