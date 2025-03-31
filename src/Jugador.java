@@ -76,6 +76,11 @@ public class Jugador {
         JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tomados", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public void mostrarPuntuacion() {
+        JOptionPane.showMessageDialog(null, "Tu puntuación actual es: " + puntuacion, "Puntuación del Jugador", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+
     public int getPuntuacionTotal() {
         return puntuacionTotal;
     }
