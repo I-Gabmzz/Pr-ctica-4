@@ -81,7 +81,6 @@ public class Jugador {
         JOptionPane.showMessageDialog(null, "Tu puntuación actual es: " + puntuacion, "Puntuación del Jugador", JOptionPane.INFORMATION_MESSAGE);
     }
 
-
     public int getPuntuacionTotal() {
         return puntuacionTotal;
     }
@@ -90,6 +89,24 @@ public class Jugador {
         return puntuacion;
     }
 
+    public void actualizarPuntuacion(int puntuacion) {
+        this.puntuacion = puntuacion;
+    }
 
+    public void reiniciarDadosDisponibles() {
+        this.dadosDisponibles = 6;
+    }
 
+    public boolean haAlcanzadoPuntuacion(int limite) {
+        return puntuacionTotal >= limite;
+    }
+
+    public void sumarPuntuacionTotal() {
+        puntuacionTotal += puntuacion;
+        puntuacion = 0;
+    }
+
+    public int getDadosDisponibles() {
+        return dadosDisponibles;
+    }
 }
