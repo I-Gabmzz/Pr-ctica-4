@@ -147,7 +147,7 @@ public class Dado {
     }
 
     public int getValor() {
-        return this.valor;
+        return valor;
     }
 
 
