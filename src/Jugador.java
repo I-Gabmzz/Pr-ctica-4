@@ -61,15 +61,19 @@ public class Jugador {
     }
 
     public void mostrarDadosTirados() {
+        StringBuilder mensaje = new StringBuilder("Valores de los dados tirados:\n");
         for (Dado dado : dadosTirados) {
-            System.out.println(dado.getValor());
+            mensaje.append(dado.getValor()).append("\n");
         }
+        JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tirados", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void mostrarDadosTomados() {
+        StringBuilder mensaje = new StringBuilder("Valores de los dados tomados:\n");
         for (int valor : dadosTomados) {
-            System.out.println(dadosTomados);
+            mensaje.append(valor).append("\n");
         }
+        JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tomados", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public int getPuntuacionTotal() {
