@@ -41,20 +41,22 @@ public class Jugador {
             }
             botones[dadosTirados.size()] = "Continuar";
 
-            int opcion = JOptionPane.showOptionDialog( null, "Estos son los dados tirados, seleccione los que desea guardar en el banco:", "Tomar Dados",
+            int opcion = JOptionPane.showOptionDialog(null, "Estos son los dados tirados, seleccione los que desea guardar en el banco:", "Tomar Dados",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
+
             if (opcion == dadosTirados.size()) {
                 break;
             }
 
             if (opcion >= 0 && opcion < dadosTirados.size()) {
                 Dado dadoSeleccionado = dadosTirados.remove(opcion);
-                int valorSeleccionado = dadoSeleccionado.getValor();
-                dadosTomados.add(valorSeleccionado);
+                agregarDado(dadoSeleccionado);
                 dadosDisponibles--;
+
+                JOptionPane.showMessageDialog(null, "Tomaste el dado con valor: " + dadoSeleccionado.getValor());
             }
         }
-        return dadosTomados;
+        return new ArrayList<>(dadosTomados);
     }
 
     public void mostrarDadosTirados() {
@@ -123,5 +125,11 @@ public class Jugador {
 
     public int getDadosDisponibles() {
         return dadosDisponibles;
+    }
+    public void agregarDado(Dado dado) {
+        dadosTomados.add(dado.getValor());
+    }
+    public ArrayList<Integer> getDadosTomados() {
+        return new ArrayList<>(dadosTomados);
     }
 }
