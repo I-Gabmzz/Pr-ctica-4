@@ -26,8 +26,8 @@ public class Jugador {
             int xPosicion = 75 + i *  delta;
             int yPosicion = 450;
             Dado dado = new Dado();
-            dado.lanzarDado();
             dado.moverDado(xPosicion,yPosicion);
+            dado.lanzarDado();
             int resultado = dado.getValor();
             dadosTirados.add(dado);
         }
@@ -52,9 +52,8 @@ public class Jugador {
                 Dado dadoSeleccionado = dadosTirados.remove(opcion);
                 agregarDado(dadoSeleccionado);
                 dadosDisponibles--;
-
-                JOptionPane.showMessageDialog(null, "Tomaste el dado con valor: " + dadoSeleccionado.getValor());
             }
+            mostrarDadosTomadosEnCanvas();
         }
         return new ArrayList<>(dadosTomados);
     }
@@ -81,8 +80,8 @@ public class Jugador {
             int xPosicion = 75 + i *  delta;
             int yPosicion = 825;
             Dado dado = new Dado();
-            dado.mostrarValor(dadosTomados.get(i));
             dado.moverDado(xPosicion, yPosicion);
+            dado.mostrarValor(dadosTomados.get(i));
         }
     }
 
