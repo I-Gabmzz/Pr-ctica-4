@@ -7,7 +7,7 @@ public class Farkle {
     private int NumeroDejugadores;
     private int CantidadDepuntosAlcanzar;
     private ArrayList<Jugador> jugadores;
-    private int turnoActual;
+    private static int turnoActual;
 
     public Farkle()
     { }
@@ -123,6 +123,10 @@ public class Farkle {
         JOptionPane.showMessageDialog(null, "Puntaje obtenido con los dados tomados: " + puntuacion,
                 "Puntaje", JOptionPane.INFORMATION_MESSAGE);
         return puntuacion;
+    }
+
+    public static int getTurnoActual() {
+        return turnoActual;
     }
 
 

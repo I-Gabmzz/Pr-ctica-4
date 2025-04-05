@@ -3,15 +3,17 @@ package src;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class Jugador {
     private int puntuacionTotal;
     private int puntuacion;
     private ArrayList<Dado> dadosTirados;
-    private ArrayList<Integer> dadosTomados;
     private ArrayList<Dado> dadosDTomados;
     private int dadosDisponibles = 6;
     private boolean opcJugador = true;
+    private int turnoActual = 0;
     private Rectangulo fondo;
 
 
@@ -19,7 +21,6 @@ public class Jugador {
         this.puntuacionTotal = 0;
         this.puntuacion = 0;
         this.dadosTirados = new ArrayList<>();
-        this.dadosTomados = new ArrayList<>();
         this.dadosDTomados = new ArrayList<>();
         fondo = new Rectangulo();
     }
@@ -38,44 +39,121 @@ public class Jugador {
         }
     }
 
-    public ArrayList<Integer> guardarDadosTirados() {
+    public ArrayList<Dado> guardarDadosTirados() {
+        AtomicBoolean continuar = new AtomicBoolean(true);
         while (opcJugador) {
-            Object[] botones = new Object[dadosTirados.size() + 2];
+            JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+            panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+            panelPrincipal.setLocation(800, 400);
+
+
+            JPanel panelDeTitulo = new JPanel();
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
+            panelDeTitulo.add(labelImagen);
+
+            JPanel panelDeJugador = new JPanel();
+            JLabel labelJugador = new JLabel("Turno de Jugador " + (Farkle.getTurnoActual() + 1), SwingConstants.CENTER);
+            labelJugador.setFont(new Font("Arial", Font.BOLD, 16));
+            panelDeJugador.add(labelJugador);
+
+            JPanel panelDeDados = new JPanel(new GridLayout(1, 6, 5, 5));
+            JButton[] botonesDados = new JButton[dadosTirados.size()];
             for (int i = 0; i < dadosTirados.size(); i++) {
-                botones[i] = dadosTirados.get(i).getValor();
+                botonesDados[i] = new JButton(String.valueOf(dadosTirados.get(i).getValor()));
+                panelDeDados.add(botonesDados[i]);
             }
-            botones[dadosTirados.size()] = "Tirar Dados";
-            botones[dadosTirados.size() + 1] = "Bank";
 
-            int opcion = JOptionPane.showOptionDialog(null, "Estos son los dados tirados, seleccione los que desea guardar en el banco:", "Tomar Dados",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
+            JPanel panelDePuntuacion = new JPanel(new GridLayout(2, 1, 5, 5));
+            JLabel labelPuntuacionActual = new JLabel("Puntuación Actual: " + puntuacion, SwingConstants.CENTER);
+             labelPuntuacionActual.setFont(new Font("Arial", Font.BOLD, 14));
+             labelPuntuacionActual.setForeground(Color.BLUE);
+             panelDePuntuacion.add(labelPuntuacionActual);
+            JLabel labelPuntuacionTotal = new JLabel("Puntuación Total: " + puntuacionTotal, SwingConstants.CENTER);
+            labelPuntuacionTotal.setFont(new Font("Arial", Font.BOLD, 14));
+            labelPuntuacionTotal.setForeground(Color.RED);
+            panelDePuntuacion.add(labelPuntuacionTotal);
 
-            if (opcion == dadosTirados.size()) {
+
+            JPanel panelCentro = new JPanel(new GridLayout(2, 1, 5, 5));
+            panelCentro.add(panelDeJugador);
+            panelCentro.add(panelDeDados);
+
+
+            JPanel panelDeAcciones = new JPanel(new GridLayout(1, 3, 10, 5));
+            JButton botonTirar = new JButton("Tirar Dados");
+            JButton botonBank = new JButton("Bank");
+            JButton botonCombinaciones = new JButton("Mostrar Combinaciones");
+
+
+            panelDeAcciones.add(botonTirar);
+            panelDeAcciones.add(botonBank);
+            panelDeAcciones.add(botonCombinaciones);
+
+            JPanel panelAbajo = new JPanel(new GridLayout(2, 1, 5, 5));
+            panelAbajo.add(panelDeAcciones);
+            panelAbajo.add(panelDePuntuacion);
+
+            panelPrincipal.add(panelDeTitulo, BorderLayout.NORTH);
+            panelPrincipal.add(panelCentro, BorderLayout.CENTER);
+            panelPrincipal.add(panelAbajo, BorderLayout.SOUTH);
+
+            JOptionPane optionPane = new JOptionPane(panelPrincipal, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+            JDialog ventana = optionPane.createDialog("Ventana De Juego");
+            ventana.setLocation(1100, 325);
+
+            for (int i = 0; i < botonesDados.length; i++) {
+                int index = i;
+                botonesDados[i].addActionListener(e -> {
+                    dadosTirados.get(index).esconder();
+                    Dado dadoSeleccionado = dadosTirados.remove(index);
+                    agregarDadoD(dadoSeleccionado);
+                    dadosDisponibles--;
+                    mostrarDadosTomadosEnCanvas();
+                    ventana.dispose();
+                });
+            }
+
+            botonTirar.addActionListener(e -> {
                 opcJugador = true;
-                break;
-            }
+                continuar.set(false);
+                ventana.dispose();
+            });
 
-            if (opcion == dadosTirados.size() + 1) {
+            botonBank.addActionListener(e -> {
                 opcJugador = false;
+                continuar.set(false);
+                ventana.dispose();
+            });
+
+            botonCombinaciones.addActionListener(e -> {
+                mostrarCombinaciones();
+                ventana.dispose();
+            });
+
+            ventana.setVisible(true);
+            ventana.dispose();
+
+            if (!continuar.get()) {
                 break;
             }
-
-            if (opcion >= 0 && opcion < dadosTirados.size()) {
-                dadosTirados.get(opcion).esconder();
-                Dado dadoSeleccionado = dadosTirados.remove(opcion);
-                agregarDado(dadoSeleccionado);
-                agregarDadoD(dadoSeleccionado);
-                dadosDisponibles--;
-            }
-            mostrarDadosTomadosEnCanvas();
         }
-        return new ArrayList<>(dadosTomados);
+        return new ArrayList<>(dadosDTomados);
     }
 
     public void limpiarDadosTirados() {
         for (int i = 0; i < dadosTirados.size(); i++) {
             dadosTirados.get(i).esconder();
         }
+    }
+
+    public void mostrarCombinaciones() {
+        JPanel panelDeCombinaciones = new JPanel();
+        JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Combinaciones.png"));
+        panelDeCombinaciones.add(labelDeCombinaciones);
+        JOptionPane optionPane = new JOptionPane(panelDeCombinaciones, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
+        JDialog ventanaC = optionPane.createDialog("Combinaciones");
+        ventanaC.setLocation(1145, 70);
+        ventanaC.setVisible(true);
     }
 
     public void limpiarDadosTomados() {
@@ -99,28 +177,20 @@ public class Jugador {
 
     public void mostrarDadosTomadosEnCanvas() {
         int delta = 150;
-        int xPositionFondo = 50 + dadosTomados.size() * delta;
+        int xPositionFondo = 50 + dadosDTomados.size() * delta;
 
         fondo.moveTo(50, 800);
         fondo.changeSize(xPositionFondo - 50, 150);
         fondo.changeColor("bone white");
         fondo.makeVisible();
 
-        for (int i = 0; i < dadosTomados.size(); i++) {
+        for (int i = 0; i < dadosDTomados.size(); i++) {
             int xPosicion = 75 + i *  delta;
             int yPosicion = 825;
             Dado dado = dadosDTomados.get(i);
             dado.moverDado(xPosicion, yPosicion);
             dado.mostrarValor(dadosDTomados.get(i).getValor());
         }
-    }
-
-    public void mostrarDadosTomados() {
-        StringBuilder mensaje = new StringBuilder("Valores de los dados tomados:\n");
-        for (int valor : dadosTomados) {
-            mensaje.append(valor).append("\n");
-        }
-        JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tomados", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void mostrarPuntuacion() {
@@ -156,13 +226,18 @@ public class Jugador {
         return dadosDisponibles;
     }
     public void agregarDado(Dado dado) {
-        dadosTomados.add(dado.getValor());
+        dadosDTomados.add(dado);
     }
 
     public void agregarDadoD(Dado dado) {
         dadosDTomados.add(dado);
     }
+
     public ArrayList<Integer> getDadosTomados() {
-        return new ArrayList<>(dadosTomados);
+        ArrayList<Integer> dadosTomados = new ArrayList<>();
+        for (Dado dado : dadosDTomados) {
+            dadosTomados.add(dado.getValor());
+        }
+        return dadosTomados;
     }
 }
