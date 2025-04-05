@@ -8,7 +8,6 @@ public class Jugador {
     private int puntuacionTotal;
     private int puntuacion;
     private ArrayList<Dado> dadosTirados;
-    private ArrayList<Integer> dadosTomados;
     private ArrayList<Dado> dadosDTomados;
     private int dadosDisponibles = 6;
     private boolean opcJugador = true;
@@ -19,7 +18,6 @@ public class Jugador {
         this.puntuacionTotal = 0;
         this.puntuacion = 0;
         this.dadosTirados = new ArrayList<>();
-        this.dadosTomados = new ArrayList<>();
         this.dadosDTomados = new ArrayList<>();
         fondo = new Rectangulo();
     }
@@ -38,7 +36,7 @@ public class Jugador {
         }
     }
 
-    public ArrayList<Integer> guardarDadosTirados() {
+    public ArrayList<Dado> guardarDadosTirados() {
         while (opcJugador) {
             Object[] botones = new Object[dadosTirados.size() + 2];
             for (int i = 0; i < dadosTirados.size(); i++) {
@@ -63,13 +61,12 @@ public class Jugador {
             if (opcion >= 0 && opcion < dadosTirados.size()) {
                 dadosTirados.get(opcion).esconder();
                 Dado dadoSeleccionado = dadosTirados.remove(opcion);
-                agregarDado(dadoSeleccionado);
                 agregarDadoD(dadoSeleccionado);
                 dadosDisponibles--;
             }
             mostrarDadosTomadosEnCanvas();
         }
-        return new ArrayList<>(dadosTomados);
+        return new ArrayList<>(dadosDTomados);
     }
 
     public void limpiarDadosTirados() {
@@ -99,28 +96,20 @@ public class Jugador {
 
     public void mostrarDadosTomadosEnCanvas() {
         int delta = 150;
-        int xPositionFondo = 50 + dadosTomados.size() * delta;
+        int xPositionFondo = 50 + dadosDTomados.size() * delta;
 
         fondo.moveTo(50, 800);
         fondo.changeSize(xPositionFondo - 50, 150);
         fondo.changeColor("bone white");
         fondo.makeVisible();
 
-        for (int i = 0; i < dadosTomados.size(); i++) {
+        for (int i = 0; i < dadosDTomados.size(); i++) {
             int xPosicion = 75 + i *  delta;
             int yPosicion = 825;
             Dado dado = dadosDTomados.get(i);
             dado.moverDado(xPosicion, yPosicion);
             dado.mostrarValor(dadosDTomados.get(i).getValor());
         }
-    }
-
-    public void mostrarDadosTomados() {
-        StringBuilder mensaje = new StringBuilder("Valores de los dados tomados:\n");
-        for (int valor : dadosTomados) {
-            mensaje.append(valor).append("\n");
-        }
-        JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tomados", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void mostrarPuntuacion() {
@@ -156,13 +145,18 @@ public class Jugador {
         return dadosDisponibles;
     }
     public void agregarDado(Dado dado) {
-        dadosTomados.add(dado.getValor());
+        dadosDTomados.add(dado);
     }
 
     public void agregarDadoD(Dado dado) {
         dadosDTomados.add(dado);
     }
+
     public ArrayList<Integer> getDadosTomados() {
-        return new ArrayList<>(dadosTomados);
+        ArrayList<Integer> dadosTomados = new ArrayList<>();
+        for (Dado dado : dadosDTomados) {
+            dadosTomados.add(dado.getValor());
+        }
+        return dadosTomados;
     }
 }
