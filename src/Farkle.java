@@ -70,16 +70,15 @@ public class Farkle {
     private void turnoDeJugador(Jugador jugador) {
         ArrayList<Integer> dadosTomados = new ArrayList<>();
         jugador.reiniciarDadosDisponibles();
-        boolean continuarTirando = true;
 
-        while (continuarTirando && jugador.getDadosDisponibles() > 0) {
+        while (jugador.getOpcJugador() && jugador.getDadosDisponibles() > 0) {
             jugador.tirarDados(jugador.getDadosDisponibles());
             jugador.guardarDadosTirados();
             int puntuacionObtenida = determinarPuntaje(jugador.getDadosTomados());
             jugador.actualizarPuntuacion(puntuacionObtenida);
-            continuarTirando = JOptionPane.showConfirmDialog(null, "¿Deseas seguir tirando?", "Seguir jugando", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+            jugador.limpiarDadosTirados();
         }
-
+        jugador.limpiarDadosTomados();
         jugador.sumarPuntuacionTotal();
     }
 
