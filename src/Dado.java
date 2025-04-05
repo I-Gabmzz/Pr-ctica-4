@@ -25,7 +25,6 @@ public class Dado {
 
     public Dado() {
         dibujar();
-        acomodarDado();
     }
 
     public void dibujar () {
@@ -46,18 +45,8 @@ public class Dado {
         Punto7 = new Circle () ;
         Punto7.changeColor (colorPunto);
 
-        Cuerpo.makeVisible();
-        Punto1.makeVisible();
-        Punto2.makeVisible();
-        Punto3.makeVisible();
-        Punto4.makeVisible();
-        Punto5.makeVisible();
-        Punto6.makeVisible();
-        Punto7.makeVisible();
-
-        acomodarDado() ;
+        acomodarDado();
     }
-
 
     public void acomodarDado (){
         Cuerpo.moveTo (xPosition, yPosition);
