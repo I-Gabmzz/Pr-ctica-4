@@ -73,10 +73,23 @@ public class Farkle {
 
         while (jugador.getOpcJugador() && jugador.getDadosDisponibles() > 0) {
             jugador.tirarDados(jugador.getDadosDisponibles());
-            jugador.guardarDadosTirados();
-            int puntuacionObtenida = determinarPuntaje(jugador.getDadosTomados());
-            jugador.actualizarPuntuacion(puntuacionObtenida);
-            jugador.limpiarDadosTirados();
+            if(esFarkle()){
+                JOptionPane.showMessageDialog(null,
+                        "¡Farkle! No has obtenido puntos en esta tirada.",
+                        "Farkle",
+                        JOptionPane.ERROR_MESSAGE);
+                int puntuacionObtenida = 0;
+                jugador.actualizarPuntuacion(puntuacionObtenida);
+                jugador.limpiarDadosTirados();
+                jugador.limpiarDadosTomados();
+                jugador.sumarPuntuacionTotal();
+                break;
+            }else{
+                jugador.guardarDadosTirados();
+                int puntuacionObtenida = determinarPuntaje(jugador.getDadosTomados());
+                jugador.actualizarPuntuacion(puntuacionObtenida);
+                jugador.limpiarDadosTirados();
+            }
         }
         jugador.limpiarDadosTomados();
         jugador.sumarPuntuacionTotal();
@@ -85,44 +98,85 @@ public class Farkle {
 
     public int determinarPuntaje(ArrayList<Integer> dadosTomados) {
         int puntuacion = 0;
-        int[] contador = new int[6];
-
-        for (Integer dado : dadosTomados) {
-            if (dado >= 1 && dado <= 6) {
-                contador[dado - 1]++;
-            }
-        }
-        if (contador[0] >= 3) {
+        Jugador jugador = jugadores.get(turnoActual);
+        int unos = jugador.cuantosHayDe(1);
+        int doses = jugador.cuantosHayDe(2);
+        int treses = jugador.cuantosHayDe(3);
+        int cuatros = jugador.cuantosHayDe(4);
+        int cincos = jugador.cuantosHayDe(5);
+        int seises = jugador.cuantosHayDe(6);
+        if (unos >= 3) {
             puntuacion += 1000;
-            contador[0] -= 3;
+            unos -= 3;
         }
-        if (contador[1] >= 3) {
+        if (doses >= 3) {
             puntuacion += 200;
-            contador[1] -= 3;
+            doses -= 3;
         }
-        if (contador[2] >= 3) {
+        if (treses >= 3) {
             puntuacion += 300;
-            contador[2] -= 3;
+            treses -= 3;
         }
-        if (contador[3] >= 3) {
+        if (cuatros >= 3) {
             puntuacion += 400;
-            contador[3] -= 3;
+            cuatros -= 3;
         }
-        if (contador[4] >= 3) {
+        if (cincos >= 3) {
             puntuacion += 500;
-            contador[4] -= 3;
+            cincos -= 3;
         }
-        if (contador[5] >= 3) {
+        if (seises >= 3) {
             puntuacion += 600;
-            contador[5] -= 3;
+            seises -= 3;
         }
 
+        if(unos == 4 || doses == 4 || treses == 4 || cuatros == 4 || cincos == 4 || seises == 4){
+            puntuacion += 1000;
+            unos -= 4;
+            doses -= 4;
+            treses -= 4;
+            cuatros -= 4;
+            cincos -= 4;
+            seises -= 4;
+        }
 
-        puntuacion += contador[0] * 100;
-        puntuacion += contador[4] * 50;
-        JOptionPane.showMessageDialog(null, "Puntaje obtenido con los dados tomados: " + puntuacion,
-                "Puntaje", JOptionPane.INFORMATION_MESSAGE);
+        if(unos == 5 || doses == 5 || treses == 5 || cuatros == 5 || cincos == 5 || seises == 5){
+            puntuacion += 2000;
+            unos -= 5;
+            doses -= 5;
+            treses -= 5;
+            cuatros -= 5;
+            cincos -= 5;
+            seises -= 5;
+        }
+        puntuacion += unos * 100;
+        puntuacion += cincos * 50;
+
+        JOptionPane.showMessageDialog(null,
+                "Puntaje obtenido con los dados tomados: " + puntuacion,
+                "Puntaje",
+                JOptionPane.INFORMATION_MESSAGE);
         return puntuacion;
+    }
+
+    public boolean esFarkle() {
+        Jugador jugador = jugadores.get(turnoActual);
+        int unos = jugador.cuantosHayEnDadosTirados(1);
+        int doses = jugador.cuantosHayEnDadosTirados(2);
+        int treses = jugador.cuantosHayEnDadosTirados(3);
+        int cuatros = jugador.cuantosHayEnDadosTirados(4);
+        int cincos = jugador.cuantosHayEnDadosTirados(5);
+        int seises = jugador.cuantosHayEnDadosTirados(6);
+
+        if (unos > 0 || cincos > 0) {
+            return false;
+        }
+
+        if (doses >= 3 || treses >= 3 || cuatros >= 3 || seises >= 3) {
+            return false;
+        }
+
+        return true;
     }
 
     public static int getTurnoActual() {
