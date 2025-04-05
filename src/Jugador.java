@@ -9,7 +9,10 @@ public class Jugador {
     private int puntuacion;
     private ArrayList<Dado> dadosTirados;
     private ArrayList<Integer> dadosTomados;
+    private ArrayList<Dado> dadosDTomados;
     private int dadosDisponibles = 6;
+    private boolean opcJugador = true;
+    private Rectangulo fondo;
 
 
     public Jugador() {
@@ -17,6 +20,8 @@ public class Jugador {
         this.puntuacion = 0;
         this.dadosTirados = new ArrayList<>();
         this.dadosTomados = new ArrayList<>();
+        this.dadosDTomados = new ArrayList<>();
+        fondo = new Rectangulo();
     }
 
     public void tirarDados(int dadosDisponibles) {
@@ -34,28 +39,54 @@ public class Jugador {
     }
 
     public ArrayList<Integer> guardarDadosTirados() {
-        while (true) {
-            Object[] botones = new Object[dadosTirados.size() + 1];
+        while (opcJugador) {
+            Object[] botones = new Object[dadosTirados.size() + 2];
             for (int i = 0; i < dadosTirados.size(); i++) {
                 botones[i] = dadosTirados.get(i).getValor();
             }
-            botones[dadosTirados.size()] = "Continuar";
+            botones[dadosTirados.size()] = "Tirar Dados";
+            botones[dadosTirados.size() + 1] = "Bank";
 
             int opcion = JOptionPane.showOptionDialog(null, "Estos son los dados tirados, seleccione los que desea guardar en el banco:", "Tomar Dados",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
 
             if (opcion == dadosTirados.size()) {
+                opcJugador = true;
+                break;
+            }
+
+            if (opcion == dadosTirados.size() + 1) {
+                opcJugador = false;
                 break;
             }
 
             if (opcion >= 0 && opcion < dadosTirados.size()) {
+                dadosTirados.get(opcion).esconder();
                 Dado dadoSeleccionado = dadosTirados.remove(opcion);
                 agregarDado(dadoSeleccionado);
+                agregarDadoD(dadoSeleccionado);
                 dadosDisponibles--;
             }
             mostrarDadosTomadosEnCanvas();
         }
         return new ArrayList<>(dadosTomados);
+    }
+
+    public void limpiarDadosTirados() {
+        for (int i = 0; i < dadosTirados.size(); i++) {
+            dadosTirados.get(i).esconder();
+        }
+    }
+
+    public void limpiarDadosTomados() {
+        for (int i = 0; i < dadosDTomados.size(); i++) {
+            dadosDTomados.get(i).esconder();
+        }
+        fondo.makeInvisible();
+    }
+
+    public boolean getOpcJugador() {
+        return opcJugador;
     }
 
     public void mostrarDadosTirados() {
@@ -70,7 +101,6 @@ public class Jugador {
         int delta = 150;
         int xPositionFondo = 50 + dadosTomados.size() * delta;
 
-        Rectangulo fondo = new Rectangulo();
         fondo.moveTo(50, 800);
         fondo.changeSize(xPositionFondo - 50, 150);
         fondo.changeColor("bone white");
@@ -79,9 +109,9 @@ public class Jugador {
         for (int i = 0; i < dadosTomados.size(); i++) {
             int xPosicion = 75 + i *  delta;
             int yPosicion = 825;
-            Dado dado = new Dado();
+            Dado dado = dadosDTomados.get(i);
             dado.moverDado(xPosicion, yPosicion);
-            dado.mostrarValor(dadosTomados.get(i));
+            dado.mostrarValor(dadosDTomados.get(i).getValor());
         }
     }
 
@@ -127,6 +157,10 @@ public class Jugador {
     }
     public void agregarDado(Dado dado) {
         dadosTomados.add(dado.getValor());
+    }
+
+    public void agregarDadoD(Dado dado) {
+        dadosDTomados.add(dado);
     }
     public ArrayList<Integer> getDadosTomados() {
         return new ArrayList<>(dadosTomados);
