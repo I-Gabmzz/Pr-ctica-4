@@ -48,8 +48,8 @@ public class Jugador {
 
 
             JPanel panelDeTitulo = new JPanel();
-            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
-            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Titulo.png"));
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Titulo.png"));
             panelDeTitulo.add(labelImagen);
 
             JPanel panelDeJugador = new JPanel();
@@ -149,8 +149,8 @@ public class Jugador {
 
     public void mostrarCombinaciones() {
         JPanel panelDeCombinaciones = new JPanel();
-        //JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Combinaciones.png"));
-        JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Combinaciones.png"));
+        JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Combinaciones.png"));
+        //JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Combinaciones.png"));
         panelDeCombinaciones.add(labelDeCombinaciones);
         JOptionPane optionPane = new JOptionPane(panelDeCombinaciones, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
         JDialog ventanaC = optionPane.createDialog("Combinaciones");

@@ -1,7 +1,9 @@
 package src;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Farkle {
     private int NumeroDejugadores;
@@ -28,23 +30,56 @@ public class Farkle {
     }
 
     public void menuInicial() {
-        int opcion;
-        boolean menuActivo = true;
-        while (menuActivo) {
-            Object[] botones = {"Jugar", "Créditos", "Salir"};
-            opcion = JOptionPane.showOptionDialog(null, "Bienvenido al juego Farkle, seleccione una opción:", "Juego Farkle",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
+        AtomicBoolean menuActivo = new AtomicBoolean(true);
+        while (menuActivo.get()) {
+            JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
+            panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            if (opcion == 0) {
-                menuActivo = false;
+            JPanel panelDeTitulo = new JPanel();
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
+            panelDeTitulo.add(labelImagen);
+
+            JPanel panelCentro = new JPanel(new GridLayout(2, 1, 5, 5));
+            JLabel labelBienvenida = new JLabel("Bienvenido a Farkle Game", SwingConstants.CENTER);
+            labelBienvenida.setFont(new Font("Arial", Font.BOLD, 18));
+            labelBienvenida.setForeground(Color.black);
+            panelCentro.add(labelBienvenida);
+
+            JPanel panelDeAcciones = new JPanel(new GridLayout(1, 3, 10, 5));
+            JButton botonJugar = new JButton("Jugar");
+            JButton botonCreditos = new JButton("Creditos");
+            JButton botonSalir = new JButton("Salir");
+
+            panelDeAcciones.add(botonJugar);
+            panelDeAcciones.add(botonCreditos);
+            panelDeAcciones.add(botonSalir);
+
+            panelPrincipal.add(panelDeTitulo, BorderLayout.NORTH);
+            panelPrincipal.add(panelCentro, BorderLayout.CENTER);
+            panelPrincipal.add(panelDeAcciones, BorderLayout.SOUTH);
+
+            JOptionPane optionPane = new JOptionPane(panelPrincipal, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+            JDialog ventana = optionPane.createDialog("Farkle Game");
+
+            botonJugar.addActionListener(e -> {
+                menuActivo.set(false);
                 NumeroDejugadores = obtenerNumeroDeJugadores();
                 CantidadDepuntosAlcanzar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de puntos para ganar"));
+                ventana.dispose();
                 iniciarJuego(NumeroDejugadores, CantidadDepuntosAlcanzar);
-            } else if (opcion == 1) {
+            });
+
+            botonCreditos.addActionListener(e -> {
                 mostrarCreditos();
-            } else if (opcion == 2) {
+            });
+
+            botonSalir.addActionListener(e -> {
                 System.exit(0);
-            }
+                ventana.dispose();
+            });
+
+            ventana.setVisible(true);
         }
     }
 
