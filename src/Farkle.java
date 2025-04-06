@@ -282,6 +282,16 @@ public class Farkle {
             return false;
         }
 
+        if (doses == 2 && treses == 2 && cuatros == 2) {
+            return false;
+        } else if (doses == 2 && treses == 2 && seises == 2) {
+            return false;
+        } else if (doses == 2 && cuatros == 2 && seises == 2) {
+            return false;
+        } else if (treses == 2 && cuatros == 2 && seises == 2) {
+            return false;
+        }
+
         return true;
     }
 
