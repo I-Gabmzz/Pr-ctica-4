@@ -20,7 +20,6 @@ public class Dado {
     private int tamañoPunto = 20;
     private int delta = 10;
 
-    private String colorCuerpo = "beach";
     private String colorPunto = "black";
 
     public Dado() {
@@ -29,7 +28,7 @@ public class Dado {
 
     public void dibujar () {
         Cuerpo = new Square () ;
-        Cuerpo.changeColor (colorCuerpo);
+        Cuerpo.changeColor ("beach");
         Punto1 = new Circle () ;
         Punto1.changeColor (colorPunto);
         Punto2 = new Circle () ;
