@@ -117,11 +117,13 @@ public class Jugador {
             botonTirar.addActionListener(e -> {
                 opcJugador = true;
                 continuar.set(false);
+                ventana.dispose();
             });
 
             botonBank.addActionListener(e -> {
                 opcJugador = false;
                 continuar.set(false);
+                ventana.dispose();
             });
 
             botonCombinaciones.addActionListener(e -> {
