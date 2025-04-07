@@ -247,6 +247,7 @@ public class Farkle {
         return puntuacion;
     }
 
+
     public boolean esFarkle() {
         Jugador jugador = jugadores.get(turnoActual);
         int unos = jugador.cuantosHayEnDadosTirados(1);
