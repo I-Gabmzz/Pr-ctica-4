@@ -36,7 +36,6 @@ public class Jugador {
             Dado dado = new Dado();
             dado.moverDado(xPosicion,yPosicion);
             dado.lanzarDado();
-            int resultado = dado.getValor();
             dadosTirados.add(dado);
         }
     }
@@ -110,7 +109,6 @@ public class Jugador {
 
                     if (esJugadaValida(index)) {
                         int totalEsteValor = contarDadosConValorEnTirados(valor) + contarDadosConValorEnTomados(valor);
-                        int seleccionadosEsteValor = contarDadosConValorEnTomados(valor);
                         if (valor == 1 || valor == 5 || totalEsteValor >= 3) {
                             dadosSeleccionados.add(valor);
                             dado.esconder();
@@ -133,11 +131,6 @@ public class Jugador {
                     }
                 });
             }
- //           botonTirar.addActionListener(e -> {
- //               opcJugador = true;
- //               continuar.set(false);
- //               ventana.dispose();
- //           });
 
           botonTirar.addActionListener(e -> {
               if (dadosSeleccionados.isEmpty()) {
@@ -208,14 +201,6 @@ public class Jugador {
         opcJugador = true;
     }
 
-    public void mostrarDadosTirados() {
-        StringBuilder mensaje = new StringBuilder("Valores de los dados tirados:\n");
-        for (Dado dado : dadosTirados) {
-            mensaje.append(dado.getValor()).append("\n");
-        }
-        JOptionPane.showMessageDialog(null, mensaje.toString(), "Dados Tirados", JOptionPane.INFORMATION_MESSAGE);
-    }
-
     public void mostrarDadosTomadosEnCanvas() {
         int delta = 150;
         int xPositionFondo = 50 + dadosDTomados.size() * delta;
@@ -234,14 +219,8 @@ public class Jugador {
         }
     }
 
-
-
     public int getPuntuacionTotal() {
         return puntuacionTotal;
-    }
-
-    public int getPuntuacion() {
-        return puntuacion;
     }
 
     public void actualizarPuntuacion(int puntuacion) {

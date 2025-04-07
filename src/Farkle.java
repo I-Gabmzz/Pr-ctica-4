@@ -10,7 +10,6 @@ public class Farkle {
     private int CantidadDepuntosAlcanzar;
     private ArrayList<Jugador> jugadores;
     private static int turnoActual;
-    private int ganador;
 
     public Farkle()
     { }
@@ -96,6 +95,7 @@ public class Farkle {
             Jugador jugador = jugadores.get(turnoActual);
             jugador.setOpcJugador();
             turnoDeJugador(jugador);
+            jugador.sumarPuntuacionTotal();
             jugador.reiniciarPuntuacionEnTurno();
 
             if(esHotDice()){
@@ -131,8 +131,8 @@ public class Farkle {
                 jugador.actualizarPuntuacion(puntuacionObtenida);
                 jugador.limpiarDadosTirados();
                 jugador.limpiarDadosTomados();
-                jugador.sumarPuntuacionTotal();
                 jugador.limpiarDadosSeleccionados();
+                jugador.reiniciarPuntuacionEnTurno();
                 break;
             }else{
                 jugador.guardarDadosTirados();
@@ -143,7 +143,6 @@ public class Farkle {
             }
         }
         jugador.limpiarDadosTomados();
-        jugador.sumarPuntuacionTotal();
     }
 
 
@@ -343,6 +342,4 @@ public class Farkle {
                 "Ganador final",
                 JOptionPane.INFORMATION_MESSAGE);
     }
-
-
 }
