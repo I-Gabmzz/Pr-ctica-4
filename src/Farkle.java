@@ -114,7 +114,7 @@ public class Farkle {
 
             turnoActual = (turnoActual + 1) % NumeroDejugadores;
 
-            if (jugadorObjetivo != -1 && turnoActual == jugadorObjetivo && turnoActual == NumeroDejugadores - 1) {
+            if (jugadorObjetivo != -1 && turnoActual == jugadorObjetivo) {
                 break;
             }
         }

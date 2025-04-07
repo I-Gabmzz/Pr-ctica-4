@@ -133,23 +133,24 @@ public class Jugador {
                     }
                 });
             }
-            botonTirar.addActionListener(e -> {
-                opcJugador = true;
-                continuar.set(false);
-                ventana.dispose();
-            });
+ //           botonTirar.addActionListener(e -> {
+ //               opcJugador = true;
+ //               continuar.set(false);
+ //               ventana.dispose();
+ //           });
 
- //          botonTirar.addActionListener(e -> {
- //              if (dadosSeleccionados.isEmpty()) {
- //                  JOptionPane.showMessageDialog(null,
- //                          "Debes seleccionar al menos un dado antes de volver a tirar.",
- //                          "Selección obligatoria",
- //                          JOptionPane.WARNING_MESSAGE);
- //              } else {
- //                  opcJugador = true;
- //                  continuar.set(false);
- //                  ventana.dispose();
- //              }
+          botonTirar.addActionListener(e -> {
+              if (dadosSeleccionados.isEmpty()) {
+                  JOptionPane.showMessageDialog(null,
+                 "Debes seleccionar al menos un dado antes de volver a tirar.",
+                 "Selección obligatoria",
+                  JOptionPane.WARNING_MESSAGE);
+                  } else {
+                       opcJugador = true;
+                       continuar.set(false);
+                       ventana.dispose();
+                  }
+          });
 
             botonBank.addActionListener(e -> {
                 opcJugador = false;
