@@ -36,8 +36,8 @@ public class Farkle {
             panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             JPanel panelDeTitulo = new JPanel();
-            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
-            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
             panelDeTitulo.add(labelImagen);
 
             JPanel panelCentro = new JPanel(new GridLayout(2, 1, 5, 5));

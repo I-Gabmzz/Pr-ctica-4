@@ -48,8 +48,8 @@ public class Jugador {
 
 
             JPanel panelDeTitulo = new JPanel();
-            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
-            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Titulo.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Titulo.png"));
             panelDeTitulo.add(labelImagen);
 
             JPanel panelDeJugador = new JPanel();
@@ -101,19 +101,42 @@ public class Jugador {
             JOptionPane optionPane = new JOptionPane(panelPrincipal, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
             JDialog ventana = optionPane.createDialog("Ventana De Juego");
             ventana.setLocation(1100, 325);
+            boolean[] dadosSeleccionados = new boolean[dadosTirados.size()];
 
             for (int i = 0; i < botonesDados.length; i++) {
                 int index = i;
                 botonesDados[i].addActionListener(e -> {
-                    dadosTirados.get(index).esconder();
-                    Dado dadoSeleccionado = dadosTirados.remove(index);
-                    agregarDadoD(dadoSeleccionado);
-                    dadosDisponibles--;
-                    mostrarDadosTomadosEnCanvas();
-                    ventana.dispose();
+                    Dado dado = dadosTirados.get(index);
+                    int valor = dado.getValor();
+
+                    // Verificar si es una selección válida
+                    if (esJugadaValida(index)) {
+                        // Verificar si estamos completando un trio
+                        int totalEsteValor = contarDadosConValorEnTirados(valor) + contarDadosConValorEnTomados(valor);
+                        int seleccionadosEsteValor = contarDadosConValorEnTomados(valor);
+
+                        if (valor == 1 || valor == 5 || totalEsteValor >= 3) {
+                            // Mover el dado
+                            dado.esconder();
+                            Dado dadoSeleccionado = dadosTirados.remove(index);
+                            agregarDadoD(dadoSeleccionado);
+                            dadosDisponibles--;
+                            mostrarDadosTomadosEnCanvas();
+                            ventana.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "Debes seleccionar al menos 3 dados de valor " + valor,
+                                    "Selección incompleta",
+                                    JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "No puedes puntuar con este dado",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
                 });
             }
-
             botonTirar.addActionListener(e -> {
                 opcJugador = true;
                 continuar.set(false);
@@ -149,8 +172,8 @@ public class Jugador {
 
     public void mostrarCombinaciones() {
         JPanel panelDeCombinaciones = new JPanel();
-        JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Combinaciones.png"));
-        //JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Combinaciones.png"));
+        //JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Combinaciones.png"));
+        JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Combinaciones.png"));
         panelDeCombinaciones.add(labelDeCombinaciones);
         JOptionPane optionPane = new JOptionPane(panelDeCombinaciones, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
         JDialog ventanaC = optionPane.createDialog("Combinaciones");
@@ -264,4 +287,34 @@ public class Jugador {
         }
         return contador;
     }
+
+    public boolean esJugadaValida(int indice) {
+        Dado dado = dadosTirados.get(indice);
+        int valor = dado.getValor();
+
+        if (valor == 1 || valor == 5) {
+            return true;
+        }
+        int contadorEnTirados = contarDadosConValorEnTirados(valor);
+        int contadorEnTomados = contarDadosConValorEnTomados(valor);
+
+        return (contadorEnTirados + contadorEnTomados) >= 3;
+    }
+
+    private int contarDadosConValorEnTirados(int valor) {
+        int contador = 0;
+        for (Dado d : dadosTirados) {
+            if (d.getValor() == valor) contador++;
+        }
+        return contador;
+    }
+
+    private int contarDadosConValorEnTomados(int valor) {
+        int contador = 0;
+        for (Dado d : dadosDTomados) {
+            if (d.getValor() == valor) contador++;
+        }
+        return contador;
+    }
+
 }
