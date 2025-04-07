@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Farkle {
     private int NumeroDejugadores;
@@ -40,16 +42,22 @@ public class Farkle {
             //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
             panelDeTitulo.add(labelImagen);
 
-            JPanel panelCentro = new JPanel(new GridLayout(2, 1, 5, 5));
+            JPanel panelCentro = new JPanel(new GridLayout(2, 1, 5, 1));
             JLabel labelBienvenida = new JLabel("Bienvenido a Farkle Game", SwingConstants.CENTER);
             labelBienvenida.setFont(new Font("Arial", Font.BOLD, 18));
             labelBienvenida.setForeground(Color.black);
             panelCentro.add(labelBienvenida);
 
-            JPanel panelDeAcciones = new JPanel(new GridLayout(1, 3, 10, 5));
+            JPanel panelDeAcciones = new JPanel(new GridLayout(1, 3, 10, 1));
             JButton botonJugar = new JButton("Jugar");
             JButton botonCreditos = new JButton("Creditos");
             JButton botonSalir = new JButton("Salir");
+
+            Stream.of(botonJugar, botonCreditos, botonSalir)
+                    .forEach(boton -> {
+                        boton.setFont(new Font("Arial", Font.BOLD, 20));
+                        boton.setBackground(Color.LIGHT_GRAY);
+                    });
 
             panelDeAcciones.add(botonJugar);
             panelDeAcciones.add(botonCreditos);
@@ -326,20 +334,20 @@ public class Farkle {
 
 
     private void determinarGanadorFinal() {
-        int maxPuntos = 0;
-        int ganadorFinal = -1;
+        int maxPuntos = jugadores.stream()
+                .mapToInt(Jugador::getPuntuacionTotal)
+                .max()
+                .orElse(0);
 
-        for (int i = 0; i < jugadores.size(); i++) {
-            int puntosJugador = jugadores.get(i).getPuntuacionTotal();
-            if (puntosJugador > maxPuntos) {
-                maxPuntos = puntosJugador;
-                ganadorFinal = i;
-            }
-        }
+        int ganadorFinal = IntStream.range(0, jugadores.size())
+                .filter(i -> jugadores.get(i).getPuntuacionTotal() == maxPuntos)
+                .findFirst()
+                .orElse(-1);
 
         JOptionPane.showMessageDialog(null,
                 "¡El jugador " + (ganadorFinal + 1) + " es el ganador con " + maxPuntos + " puntos!",
                 "Ganador final",
                 JOptionPane.INFORMATION_MESSAGE);
     }
+
 }

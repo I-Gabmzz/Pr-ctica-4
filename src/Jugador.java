@@ -258,25 +258,15 @@ public class Jugador {
     }
 
     public int cuantosHayDe(int numero) {
-        int contador = 0;
-        for(int i = 0; i < dadosSeleccionados.size(); i++) {
-            int valor = dadosSeleccionados.get(i);
-            if(valor == numero) {
-                contador++;
-            }
-        }
-        return contador;
+        return (int) dadosSeleccionados.stream()
+                .filter(valor -> valor == numero)
+                .count();
     }
 
     public int cuantosHayEnDadosTirados(int numero) {
-        int contador = 0;
-        for(int i = 0; i < dadosTirados.size(); i++) {
-            int valor = dadosTirados.get(i).getValor();
-            if(valor == numero) {
-                contador++;
-            }
-        }
-        return contador;
+        return (int) dadosTirados.stream()
+                .filter(dado -> dado.getValor() == numero)
+                .count();
     }
 
     public void limpiarDadosSeleccionados() {
@@ -297,19 +287,15 @@ public class Jugador {
     }
 
     private int contarDadosConValorEnTirados(int valor) {
-        int contador = 0;
-        for (Dado d : dadosTirados) {
-            if (d.getValor() == valor) contador++;
-        }
-        return contador;
+        return (int) dadosTirados.stream()
+                .filter(d -> d.getValor() == valor)
+                .count();
     }
 
     private int contarDadosConValorEnTomados(int valor) {
-        int contador = 0;
-        for (int d : dadosSeleccionados) {
-            if (d == valor) contador++;
-        }
-        return contador;
+        return (int) dadosSeleccionados.stream()
+                .filter(d -> d == valor)
+                .count();
     }
 
 }
