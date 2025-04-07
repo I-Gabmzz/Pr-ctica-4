@@ -9,19 +9,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Jugador {
     private int puntuacionTotal;
     private int puntuacion;
+    private int puntuacionEnTurno;
     private ArrayList<Dado> dadosTirados;
     private ArrayList<Dado> dadosDTomados;
+    private ArrayList<Integer> dadosSeleccionados;
     private int dadosDisponibles = 6;
     private boolean opcJugador = true;
-    private int turnoActual = 0;
     private Rectangulo fondo;
-
 
     public Jugador() {
         this.puntuacionTotal = 0;
         this.puntuacion = 0;
         this.dadosTirados = new ArrayList<>();
         this.dadosDTomados = new ArrayList<>();
+        this.dadosSeleccionados = new ArrayList<>();
         fondo = new Rectangulo();
     }
 
@@ -39,7 +40,7 @@ public class Jugador {
         }
     }
 
-    public ArrayList<Dado> guardarDadosTirados() {
+    public void guardarDadosTirados() {
         AtomicBoolean continuar = new AtomicBoolean(true);
         while (opcJugador) {
             JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
@@ -48,8 +49,8 @@ public class Jugador {
 
 
             JPanel panelDeTitulo = new JPanel();
-            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
-            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Titulo.png"));
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Titulo.png"));
             panelDeTitulo.add(labelImagen);
 
             JPanel panelDeJugador = new JPanel();
@@ -65,7 +66,7 @@ public class Jugador {
             }
 
             JPanel panelDePuntuacion = new JPanel(new GridLayout(2, 1, 5, 5));
-            JLabel labelPuntuacionActual = new JLabel("Puntuación Actual: " + puntuacion, SwingConstants.CENTER);
+            JLabel labelPuntuacionActual = new JLabel("Puntuación Actual: " + puntuacionEnTurno, SwingConstants.CENTER);
              labelPuntuacionActual.setFont(new Font("Arial", Font.BOLD, 14));
              labelPuntuacionActual.setForeground(Color.BLUE);
              panelDePuntuacion.add(labelPuntuacionActual);
@@ -101,7 +102,6 @@ public class Jugador {
             JOptionPane optionPane = new JOptionPane(panelPrincipal, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
             JDialog ventana = optionPane.createDialog("Ventana De Juego");
             ventana.setLocation(1100, 325);
-            boolean[] dadosSeleccionados = new boolean[dadosTirados.size()];
 
             for (int i = 0; i < botonesDados.length; i++) {
                 int index = i;
@@ -111,12 +111,10 @@ public class Jugador {
 
                     // Verificar si es una selección válida
                     if (esJugadaValida(index)) {
-                        // Verificar si estamos completando un trio
                         int totalEsteValor = contarDadosConValorEnTirados(valor) + contarDadosConValorEnTomados(valor);
                         int seleccionadosEsteValor = contarDadosConValorEnTomados(valor);
-
                         if (valor == 1 || valor == 5 || totalEsteValor >= 3) {
-                            // Mover el dado
+                            dadosSeleccionados.add(valor);
                             dado.esconder();
                             Dado dadoSeleccionado = dadosTirados.remove(index);
                             agregarDadoD(dadoSeleccionado);
@@ -161,7 +159,6 @@ public class Jugador {
                 break;
             }
         }
-        return new ArrayList<>(dadosDTomados);
     }
 
     public void limpiarDadosTirados() {
@@ -232,6 +229,11 @@ public class Jugador {
 
     public void actualizarPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
+        puntuacionEnTurno = puntuacionEnTurno + puntuacion;
+    }
+
+    public void reiniciarPuntuacionEnTurno() {
+        puntuacionEnTurno = 0;
     }
 
     public void reiniciarDadosDisponibles() {
@@ -250,26 +252,19 @@ public class Jugador {
     public int getDadosDisponibles() {
         return dadosDisponibles;
     }
-    public void agregarDado(Dado dado) {
-        dadosDTomados.add(dado);
-    }
 
     public void agregarDadoD(Dado dado) {
         dadosDTomados.add(dado);
     }
 
     public ArrayList<Integer> getDadosTomados() {
-        ArrayList<Integer> dadosTomados = new ArrayList<>();
-        for (Dado dado : dadosDTomados) {
-            dadosTomados.add(dado.getValor());
-        }
-        return dadosTomados;
+        return new ArrayList<>(dadosSeleccionados);
     }
 
     public int cuantosHayDe(int numero) {
         int contador = 0;
-        for(int i = 0; i < dadosDTomados.size(); i++) {
-            int valor = dadosDTomados.get(i).getValor();
+        for(int i = 0; i < dadosSeleccionados.size(); i++) {
+            int valor = dadosSeleccionados.get(i);
             if(valor == numero) {
                 contador++;
             }
@@ -286,6 +281,10 @@ public class Jugador {
             }
         }
         return contador;
+    }
+
+    public void limpiarDadosSeleccionados() {
+        dadosSeleccionados.clear();
     }
 
     public boolean esJugadaValida(int indice) {

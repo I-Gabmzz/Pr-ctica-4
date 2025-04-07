@@ -36,8 +36,8 @@ public class Farkle {
             panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             JPanel panelDeTitulo = new JPanel();
-            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
-            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
             panelDeTitulo.add(labelImagen);
 
             JPanel panelCentro = new JPanel(new GridLayout(2, 1, 5, 5));
@@ -93,6 +93,7 @@ public class Farkle {
             Jugador jugador = jugadores.get(turnoActual);
             // jOption
             turnoDeJugador(jugador);
+            jugador.reiniciarPuntuacionEnTurno();
 
             if (jugador.haAlcanzadoPuntuacion(CantidadDepuntosAlcanzar)) {
                 JOptionPane.showMessageDialog(null, "¡El jugador " + (turnoActual + 1) + " ha ganado!", "Ganador", JOptionPane.INFORMATION_MESSAGE);
@@ -118,12 +119,14 @@ public class Farkle {
                 jugador.limpiarDadosTirados();
                 jugador.limpiarDadosTomados();
                 jugador.sumarPuntuacionTotal();
+                jugador.limpiarDadosSeleccionados();
                 break;
             }else{
                 jugador.guardarDadosTirados();
                 int puntuacionObtenida = determinarPuntaje(jugador.getDadosTomados());
                 jugador.actualizarPuntuacion(puntuacionObtenida);
                 jugador.limpiarDadosTirados();
+                jugador.limpiarDadosSeleccionados();
             }
         }
         jugador.limpiarDadosTomados();
