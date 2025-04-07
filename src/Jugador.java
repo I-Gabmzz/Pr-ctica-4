@@ -17,6 +17,7 @@ public class Jugador {
     private boolean opcJugador = true;
     private Rectangulo fondo;
 
+
     public Jugador() {
         this.puntuacionTotal = 0;
         this.puntuacion = 0;
@@ -42,11 +43,11 @@ public class Jugador {
 
     public void guardarDadosTirados() {
         AtomicBoolean continuar = new AtomicBoolean(true);
+        opcJugador = true;
         while (opcJugador) {
             JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
             panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
             panelPrincipal.setLocation(800, 400);
-
 
             JPanel panelDeTitulo = new JPanel();
             JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
@@ -80,12 +81,10 @@ public class Jugador {
             panelCentro.add(panelDeJugador);
             panelCentro.add(panelDeDados);
 
-
             JPanel panelDeAcciones = new JPanel(new GridLayout(1, 3, 10, 5));
             JButton botonTirar = new JButton("Tirar Dados");
             JButton botonBank = new JButton("Bank");
             JButton botonCombinaciones = new JButton("Mostrar Combinaciones");
-
 
             panelDeAcciones.add(botonTirar);
             panelDeAcciones.add(botonBank);
@@ -109,7 +108,6 @@ public class Jugador {
                     Dado dado = dadosTirados.get(index);
                     int valor = dado.getValor();
 
-                    // Verificar si es una selección válida
                     if (esJugadaValida(index)) {
                         int totalEsteValor = contarDadosConValorEnTirados(valor) + contarDadosConValorEnTomados(valor);
                         int seleccionadosEsteValor = contarDadosConValorEnTomados(valor);
@@ -136,7 +134,6 @@ public class Jugador {
                 });
             }
             botonTirar.addActionListener(e -> {
-
                 opcJugador = true;
                 continuar.set(false);
                 ventana.dispose();
@@ -153,7 +150,6 @@ public class Jugador {
  //                  continuar.set(false);
  //                  ventana.dispose();
  //              }
- //
 
             botonBank.addActionListener(e -> {
                 opcJugador = false;
@@ -181,6 +177,10 @@ public class Jugador {
         }
     }
 
+    public void reiniciarDadosTomados() {
+        dadosDTomados.clear();
+    }
+
     public void mostrarCombinaciones() {
         JPanel panelDeCombinaciones = new JPanel();
         JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Combinaciones.png"));
@@ -201,6 +201,10 @@ public class Jugador {
 
     public boolean getOpcJugador() {
         return opcJugador;
+    }
+
+    public void setOpcJugador() {
+        opcJugador = true;
     }
 
     public void mostrarDadosTirados() {
@@ -229,9 +233,7 @@ public class Jugador {
         }
     }
 
-    public void mostrarPuntuacion() {
-        JOptionPane.showMessageDialog(null, "Tu puntuación actual es: " + puntuacion, "Puntuación del Jugador", JOptionPane.INFORMATION_MESSAGE);
-    }
+
 
     public int getPuntuacionTotal() {
         return puntuacionTotal;

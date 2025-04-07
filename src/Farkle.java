@@ -10,6 +10,7 @@ public class Farkle {
     private int CantidadDepuntosAlcanzar;
     private ArrayList<Jugador> jugadores;
     private static int turnoActual;
+    private int ganador;
 
     public Farkle()
     { }
@@ -89,26 +90,40 @@ public class Farkle {
             jugadores.add(new Jugador());
         }
         turnoActual = 0;
+        int jugadorObjetivo = -1;
+
         while (true) {
             Jugador jugador = jugadores.get(turnoActual);
-            // jOption
+            jugador.setOpcJugador();
             turnoDeJugador(jugador);
             jugador.reiniciarPuntuacionEnTurno();
+
             if(esHotDice()){
                 turnoDeJugador(jugador);
             }
+
             if (jugador.haAlcanzadoPuntuacion(CantidadDepuntosAlcanzar)) {
-                JOptionPane.showMessageDialog(null, "¡El jugador " + (turnoActual + 1) + " ha ganado!", "Ganador", JOptionPane.INFORMATION_MESSAGE);
+                if (jugadorObjetivo == -1) {
+                    jugadorObjetivo = turnoActual;
+                    JOptionPane.showMessageDialog(null,
+                            "¡El jugador " + (turnoActual + 1) + " ha alcanzado la meta! Última ronda para los demás.",
+                            "Meta alcanzada",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+
+            turnoActual = (turnoActual + 1) % NumeroDejugadores;
+
+            if (jugadorObjetivo != -1 && turnoActual == jugadorObjetivo && turnoActual == NumeroDejugadores - 1) {
                 break;
             }
-            turnoActual = (turnoActual + 1) % NumeroDejugadores;
         }
+        determinarGanadorFinal();
     }
 
     private void turnoDeJugador(Jugador jugador) {
-        ArrayList<Integer> dadosTomados = new ArrayList<>();
+        jugador.reiniciarDadosTomados();
         jugador.reiniciarDadosDisponibles();
-
         while (jugador.getOpcJugador() && jugador.getDadosDisponibles() > 0) {
             jugador.tirarDados(jugador.getDadosDisponibles());
             if(esFarkle()){
@@ -136,10 +151,6 @@ public class Farkle {
         int puntuacion = 0;
         int trios = 0;
         int[] conteo = new int[7];
-        int pares = 0;
-        int[] conteo2 = new int[7];
-        boolean esEscalera = true;
-        int[] numero = new int[7];
         Jugador jugador = jugadores.get(turnoActual);
         int unos = jugador.cuantosHayDe(1);
         int doses = jugador.cuantosHayDe(2);
@@ -242,27 +253,6 @@ public class Farkle {
             seises = 0;
         }
 
-        for (int valor : dadosTomados) {
-            numero[valor]++;
-        }
-
-        for (int i = 1; i <= 6; i++) {
-            if (numero[i] != 1) {
-                esEscalera = false;
-                break;
-            }
-        }
-
-        if (esEscalera) {
-            puntuacion += 2500;
-            unos = 0;
-            doses = 0;
-            treses = 0;
-            cuatros = 0;
-            cincos = 0;
-            seises = 0;
-        }
-
         if (unos >= 3) {
             puntuacion += 1000;
             unos = 0;
@@ -335,6 +325,24 @@ public class Farkle {
         return false;
     }
 
+
+    private void determinarGanadorFinal() {
+        int maxPuntos = 0;
+        int ganadorFinal = -1;
+
+        for (int i = 0; i < jugadores.size(); i++) {
+            int puntosJugador = jugadores.get(i).getPuntuacionTotal();
+            if (puntosJugador > maxPuntos) {
+                maxPuntos = puntosJugador;
+                ganadorFinal = i;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null,
+                "¡El jugador " + (ganadorFinal + 1) + " es el ganador con " + maxPuntos + " puntos!",
+                "Ganador final",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
 
 
 }
