@@ -196,24 +196,6 @@ public class Farkle {
         }
 
         for (int valor : dadosTomados) {
-            conteo2[valor]++;
-        }
-        for (int i = 1; i <= 6; i++) {
-            if (conteo2[i] == 2) {
-                pares++;
-            }
-        }
-        if (pares == 3) {
-            puntuacion += 1500;
-            unos = 0;
-            doses = 0;
-            treses = 0;
-            cuatros = 0;
-            cincos = 0;
-            seises = 0;
-        }
-
-        for (int valor : dadosTomados) {
             numero[valor]++;
         }
 
@@ -279,16 +261,6 @@ public class Farkle {
         }
 
         if (doses >= 3 || treses >= 3 || cuatros >= 3 || seises >= 3) {
-            return false;
-        }
-
-        if (doses == 2 && treses == 2 && cuatros == 2) {
-            return false;
-        } else if (doses == 2 && treses == 2 && seises == 2) {
-            return false;
-        } else if (doses == 2 && cuatros == 2 && seises == 2) {
-            return false;
-        } else if (treses == 2 && cuatros == 2 && seises == 2) {
             return false;
         }
 
