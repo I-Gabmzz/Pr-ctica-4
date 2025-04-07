@@ -49,8 +49,8 @@ public class Jugador {
 
 
             JPanel panelDeTitulo = new JPanel();
-            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
-            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Titulo.png"));
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Titulo.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Titulo.png"));
             panelDeTitulo.add(labelImagen);
 
             JPanel panelDeJugador = new JPanel();
@@ -136,10 +136,24 @@ public class Jugador {
                 });
             }
             botonTirar.addActionListener(e -> {
+
                 opcJugador = true;
                 continuar.set(false);
                 ventana.dispose();
             });
+
+ //          botonTirar.addActionListener(e -> {
+ //              if (dadosSeleccionados.isEmpty()) {
+ //                  JOptionPane.showMessageDialog(null,
+ //                          "Debes seleccionar al menos un dado antes de volver a tirar.",
+ //                          "Selección obligatoria",
+ //                          JOptionPane.WARNING_MESSAGE);
+ //              } else {
+ //                  opcJugador = true;
+ //                  continuar.set(false);
+ //                  ventana.dispose();
+ //              }
+ //
 
             botonBank.addActionListener(e -> {
                 opcJugador = false;
@@ -169,8 +183,8 @@ public class Jugador {
 
     public void mostrarCombinaciones() {
         JPanel panelDeCombinaciones = new JPanel();
-        //JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Combinaciones.png"));
-        JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Combinaciones.png"));
+        JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\Combinaciones.png"));
+        //JLabel labelDeCombinaciones = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\Combinaciones.png"));
         panelDeCombinaciones.add(labelDeCombinaciones);
         JOptionPane optionPane = new JOptionPane(panelDeCombinaciones, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
         JDialog ventanaC = optionPane.createDialog("Combinaciones");
@@ -310,8 +324,8 @@ public class Jugador {
 
     private int contarDadosConValorEnTomados(int valor) {
         int contador = 0;
-        for (Dado d : dadosDTomados) {
-            if (d.getValor() == valor) contador++;
+        for (int d : dadosSeleccionados) {
+            if (d == valor) contador++;
         }
         return contador;
     }

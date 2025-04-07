@@ -36,8 +36,8 @@ public class Farkle {
             panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             JPanel panelDeTitulo = new JPanel();
-            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
-            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
             panelDeTitulo.add(labelImagen);
 
             JPanel panelCentro = new JPanel(new GridLayout(2, 1, 5, 5));
@@ -158,24 +158,70 @@ public class Farkle {
             seises = 0;
         }
 
-        if(unos == 5 || doses == 5 || treses == 5 || cuatros == 5 || cincos == 5 || seises == 5){
-            puntuacion += 2000;
-            unos = 0;
-            doses = 0;
-            treses = 0;
-            cuatros = 0;
-            cincos = 0;
-            seises = 0;
+        switch(unos){
+            case 5:
+                puntuacion += 2000;
+                unos = 0;
+                break;
+            case 4:
+                puntuacion += 1000;
+                unos = 0;
+                break;
         }
 
-        if(unos == 4 || doses == 4 || treses == 4 || cuatros == 4 || cincos == 4 || seises == 4){
-            puntuacion += 1000;
-            unos = 0;
-            doses = 0;
-            treses = 0;
-            cuatros = 0;
-            cincos = 0;
-            seises = 0;
+        switch(doses){
+            case 5:
+                puntuacion += 2000;
+                doses = 0;
+                break;
+            case 4:
+                puntuacion += 1000;
+                doses = 0;
+                break;
+        }
+
+        switch(treses){
+            case 5:
+                puntuacion += 2000;
+                treses = 0;
+                break;
+            case 4:
+                puntuacion += 1000;
+                treses = 0;
+                break;
+        }
+
+        switch(cuatros){
+            case 5:
+                puntuacion += 2000;
+                cuatros = 0;
+                break;
+            case 4:
+                puntuacion += 1000;
+                cuatros = 0;
+                break;
+        }
+
+        switch(cincos){
+            case 5:
+                puntuacion += 2000;
+                cincos = 0;
+                break;
+            case 4:
+                puntuacion += 1000;
+                cincos = 0;
+                break;
+        }
+
+        switch(seises){
+            case 5:
+                puntuacion += 2000;
+                seises = 0;
+                break;
+            case 4:
+                puntuacion += 1000;
+                seises = 0;
+                break;
         }
 
         for (int valor : dadosTomados) {
@@ -248,7 +294,6 @@ public class Farkle {
         return puntuacion;
     }
 
-
     public boolean esFarkle() {
         Jugador jugador = jugadores.get(turnoActual);
         int unos = jugador.cuantosHayEnDadosTirados(1);
@@ -289,6 +334,7 @@ public class Farkle {
         }
         return false;
     }
+
 
 
 }
