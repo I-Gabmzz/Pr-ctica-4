@@ -133,6 +133,12 @@ public class Farkle {
 
     public int determinarPuntaje(ArrayList<Integer> dadosTomados) {
         int puntuacion = 0;
+        int trios = 0;
+        int[] conteo = new int[7];
+        int pares = 0;
+        int[] conteo2 = new int[7];
+        boolean esEscalera = true;
+        int[] numero = new int[7];
         Jugador jugador = jugadores.get(turnoActual);
         int unos = jugador.cuantosHayDe(1);
         int doses = jugador.cuantosHayDe(2);
@@ -140,50 +146,97 @@ public class Farkle {
         int cuatros = jugador.cuantosHayDe(4);
         int cincos = jugador.cuantosHayDe(5);
         int seises = jugador.cuantosHayDe(6);
-        if (unos >= 3) {
-            puntuacion += 1000;
-            unos -= 3;
-        }
-        if (doses >= 3) {
-            puntuacion += 200;
-            doses -= 3;
-        }
-        if (treses >= 3) {
-            puntuacion += 300;
-            treses -= 3;
-        }
-        if (cuatros >= 3) {
-            puntuacion += 400;
-            cuatros -= 3;
-        }
-        if (cincos >= 3) {
-            puntuacion += 500;
-            cincos -= 3;
-        }
-        if (seises >= 3) {
-            puntuacion += 600;
-            seises -= 3;
-        }
 
-        if(unos == 4 || doses == 4 || treses == 4 || cuatros == 4 || cincos == 4 || seises == 4){
-            puntuacion += 1000;
-            unos -= 4;
-            doses -= 4;
-            treses -= 4;
-            cuatros -= 4;
-            cincos -= 4;
-            seises -= 4;
+        if(unos == 6 || doses == 6 || treses == 6 || cuatros == 6 || cincos == 6 || seises == 6){
+            puntuacion += 3000;
+            unos = 0;
+            doses = 0;
+            treses = 0;
+            cuatros = 0;
+            cincos = 0;
+            seises = 0;
         }
 
         if(unos == 5 || doses == 5 || treses == 5 || cuatros == 5 || cincos == 5 || seises == 5){
             puntuacion += 2000;
-            unos -= 5;
-            doses -= 5;
-            treses -= 5;
-            cuatros -= 5;
-            cincos -= 5;
-            seises -= 5;
+            unos = 0;
+            doses = 0;
+            treses = 0;
+            cuatros = 0;
+            cincos = 0;
+            seises = 0;
         }
+
+        if(unos == 4 || doses == 4 || treses == 4 || cuatros == 4 || cincos == 4 || seises == 4){
+            puntuacion += 1000;
+            unos = 0;
+            doses = 0;
+            treses = 0;
+            cuatros = 0;
+            cincos = 0;
+            seises = 0;
+        }
+
+        for (int valor : dadosTomados) {
+            conteo[valor]++;
+        }
+        for (int i = 1; i <= 6; i++) {
+            if (conteo[i] == 3) {
+                trios++;
+            }
+        }
+        if (trios == 2) {
+            puntuacion += 2500;
+            unos = 0;
+            doses = 0;
+            treses = 0;
+            cuatros = 0;
+            cincos = 0;
+            seises = 0;
+        }
+
+        for (int valor : dadosTomados) {
+            numero[valor]++;
+        }
+
+        for (int i = 1; i <= 6; i++) {
+            if (numero[i] != 1) {
+                esEscalera = false;
+                break;
+            }
+        }
+
+        if (esEscalera) {
+            puntuacion += 2500;
+            unos = 0;
+            doses = 0;
+            treses = 0;
+            cuatros = 0;
+            cincos = 0;
+            seises = 0;
+        }
+
+        if (unos >= 3) {
+            puntuacion += 1000;
+            unos = 0;
+        }
+        if (doses >= 3) {
+            puntuacion += 200;
+        }
+        if (treses >= 3) {
+            puntuacion += 300;
+        }
+        if (cuatros >= 3) {
+            puntuacion += 400;
+        }
+        if (cincos >= 3) {
+            puntuacion += 500;
+            cincos = 0;
+        }
+        if (seises >= 3) {
+            puntuacion += 600;
+        }
+
         puntuacion += unos * 100;
         puntuacion += cincos * 50;
 
@@ -193,6 +246,7 @@ public class Farkle {
                 JOptionPane.INFORMATION_MESSAGE);
         return puntuacion;
     }
+
 
     public boolean esFarkle() {
         Jugador jugador = jugadores.get(turnoActual);
