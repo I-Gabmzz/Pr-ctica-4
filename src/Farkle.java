@@ -36,8 +36,8 @@ public class Farkle {
             panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             JPanel panelDeTitulo = new JPanel();
-            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
-            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
+            //JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\PC OSTRICH\\Pr-ctica-4\\PantallaInicial.png"));
+            JLabel labelImagen = new JLabel(new ImageIcon("C:\\Users\\14321\\IdeaProjects\\Pr-ctica-4\\PantallaInicial.png"));
             panelDeTitulo.add(labelImagen);
 
             JPanel panelCentro = new JPanel(new GridLayout(2, 1, 5, 5));
@@ -94,7 +94,9 @@ public class Farkle {
             // jOption
             turnoDeJugador(jugador);
             jugador.reiniciarPuntuacionEnTurno();
-
+            if(esHotDice()){
+                turnoDeJugador(jugador);
+            }
             if (jugador.haAlcanzadoPuntuacion(CantidadDepuntosAlcanzar)) {
                 JOptionPane.showMessageDialog(null, "¡El jugador " + (turnoActual + 1) + " ha ganado!", "Ganador", JOptionPane.INFORMATION_MESSAGE);
                 break;
@@ -110,10 +112,6 @@ public class Farkle {
         while (jugador.getOpcJugador() && jugador.getDadosDisponibles() > 0) {
             jugador.tirarDados(jugador.getDadosDisponibles());
             if(esFarkle()){
-                JOptionPane.showMessageDialog(null,
-                        "¡Farkle! No has obtenido puntos en esta tirada.",
-                        "Farkle",
-                        JOptionPane.ERROR_MESSAGE);
                 int puntuacionObtenida = 0;
                 jugador.actualizarPuntuacion(puntuacionObtenida);
                 jugador.limpiarDadosTirados();
@@ -268,6 +266,11 @@ public class Farkle {
             return false;
         }
 
+        JOptionPane.showMessageDialog(null,
+                "¡Farkle! No has obtenido puntos en esta tirada.",
+                "Farkle",
+                JOptionPane.ERROR_MESSAGE);
+
         return true;
     }
 
@@ -275,6 +278,17 @@ public class Farkle {
         return turnoActual;
     }
 
+    public boolean esHotDice() {
+        Jugador jugador = jugadores.get(turnoActual);
+        if(jugador.getDadosDisponibles() == 0){
+            JOptionPane.showMessageDialog(null,
+                    "!Hot Dice, puedes volver a tirar!",
+                    "HotDice",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        }
+        return false;
+    }
 
 
 }
